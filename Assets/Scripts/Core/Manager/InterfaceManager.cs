@@ -16,6 +16,7 @@ namespace Core.Manager
         private TMP_Text m_UseText;
         private TMP_Text m_NameText;
         private TMP_Text m_NotificationText;
+        private TMP_Text m_DragText;
 
         private Queue<string> m_Notifications;
         private bool m_IsNotifying;
@@ -40,7 +41,8 @@ namespace Core.Manager
             m_UseText = GameObject.Find("UseText").GetComponent<TMP_Text>();
             m_NameText = GameObject.Find("NameText").GetComponent<TMP_Text>();
             m_NotificationText = GameObject.Find("NotificationText").GetComponent<TMP_Text>();
-
+            m_DragText = GameObject.Find("DragText").GetComponent<TMP_Text>();
+            
             m_Notifications = new Queue<string>();
             m_IsNotifying = false;
         }
@@ -61,6 +63,12 @@ namespace Core.Manager
         {
             var text = on ? $"Use ({Controls.Use.ToString()})" : string.Empty;
             m_UseText.text = text;
+        }
+
+        public void ToggleDragText(bool on)
+        {
+            var text = on ? $"Drag ({Controls.Drag.ToString()})" : string.Empty;
+            m_DragText.text = text;
         }
 
         public void ChangeDialogText(string line)
