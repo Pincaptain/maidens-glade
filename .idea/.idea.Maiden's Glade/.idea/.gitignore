@@ -1,0 +1,13 @@
+﻿# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/modules.xml
+/projectSettingsUpdater.xml
+/contentModel.xml
+/.idea.Maiden's Glade.iml
+# Datasource local storage ignored files
+/../../../../../../../../../../../:\Users\Borjan Gjorovski\Projects\Coding\C#\Unity\Maiden's Glade\.idea\.idea.Maiden's Glade\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/

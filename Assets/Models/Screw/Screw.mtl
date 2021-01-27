@@ -1,0 +1,12 @@
+#
+# mtl file for Screw.obj obj file
+#
+
+newmtl world/expansion08/doodads/vampire/9vm_vampire_bobber01.m2_Geoset_000
+illum 2
+Kd 1.000000 1.000000 1.000000
+Ka 0.250000 0.250000 0.250000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ns 0.000000
+map_Kd Screw_9vm_vampire_bobber01_3657646.png
