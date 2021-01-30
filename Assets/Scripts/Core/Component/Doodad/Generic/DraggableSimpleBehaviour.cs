@@ -1,11 +1,11 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Core.Component.Doodad.Generic
 {
     public class DraggableSimpleBehaviour : DraggableBehaviour
     {
         private Camera m_MainCamera;
+        private const float GrabDistance = 2f;
 
         private void Start()
         {
@@ -14,8 +14,7 @@ namespace Core.Component.Doodad.Generic
 
         public override void OnDrag()
         {
-            var mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y,
-                -m_MainCamera.transform.position.z + transform.position.z + 1f);
+            var mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, GrabDistance);
             var gameObjectPosition = m_MainCamera.ScreenToWorldPoint(mousePosition);
 
             transform.position = gameObjectPosition;
