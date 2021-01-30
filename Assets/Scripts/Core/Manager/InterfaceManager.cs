@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text;
+using Core.Component.Inventory;
 using Core.Component.Player;
 using TMPro;
 using UnityEngine;
@@ -17,9 +19,11 @@ namespace Core.Manager
         private TMP_Text m_NameText;
         private TMP_Text m_NotificationText;
         private TMP_Text m_DragText;
+        private TMP_Text m_InventoryText;
 
         private Queue<string> m_Notifications;
         private bool m_IsNotifying;
+        private InventoryBehaviour m_InventoryBehaviour;
 
         private void Awake()
         {
@@ -42,9 +46,11 @@ namespace Core.Manager
             m_NameText = GameObject.Find("NameText").GetComponent<TMP_Text>();
             m_NotificationText = GameObject.Find("NotificationText").GetComponent<TMP_Text>();
             m_DragText = GameObject.Find("DragText").GetComponent<TMP_Text>();
+            m_InventoryText = GameObject.Find("InventoryText").GetComponent<TMP_Text>();
             
             m_Notifications = new Queue<string>();
             m_IsNotifying = false;
+            m_InventoryBehaviour = InventoryBehaviour.Instance;
         }
 
         public void ToggleObtainText(bool on)
@@ -118,6 +124,26 @@ namespace Core.Manager
             }
 
             m_IsNotifying = false;
+        }
+
+        public void ToggleInventoryText()
+        {
+            if (m_InventoryText.text.Equals(string.Empty))
+            {
+                var stringBuilder = new StringBuilder();
+
+                stringBuilder.AppendLine("Inventory:");
+                foreach (var obtainable in m_InventoryBehaviour.GetObtainables())
+                {
+                    stringBuilder.AppendLine($"- {obtainable.name}");
+                }
+
+                m_InventoryText.text = stringBuilder.ToString();
+            }
+            else
+            {
+                m_InventoryText.text = string.Empty;
+            }
         }
     }
 }

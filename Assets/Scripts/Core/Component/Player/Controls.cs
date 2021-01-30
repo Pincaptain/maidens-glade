@@ -8,5 +8,6 @@ namespace Core.Component.Player
         public const KeyCode Inspect = KeyCode.Q;
         public const KeyCode Use = KeyCode.F;
         public const KeyCode Drag = KeyCode.G;
+        public const KeyCode Inventory = KeyCode.I;
     }
 }

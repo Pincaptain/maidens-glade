@@ -16,7 +16,7 @@ namespace Core.Component.Doodad.Generic
 
         protected override void OnCollisionUpdate(GameObject other)
         {
-            Debug.Log($"Colliding: {gameObject.name}");
+            Debug.Log($"Colliding: {other.name}");
         }
     }
 }

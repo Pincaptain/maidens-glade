@@ -1,4 +1,7 @@
-﻿using Core.Component.Doodad;
+﻿using System;
+using System.Collections.Generic;
+using Core.Component.Doodad;
+using Core.Component.Player;
 using Core.Manager;
 using UnityEngine;
 
@@ -29,10 +32,28 @@ namespace Core.Component.Inventory
             m_InterfaceManager = InterfaceManager.Instance;
         }
 
+        private void Update()
+        {
+            OnInventory();
+        }
+
+        private void OnInventory()
+        {
+            if (Input.GetKeyDown(Controls.Inventory))
+            {
+                m_InterfaceManager.ToggleInventoryText();
+            }
+        }
+
         public void AddObtainable(Obtainable obtainable)
         {
             m_Inventory.AddObtainable(obtainable);
             m_InterfaceManager.Notify($"Obtained {obtainable.name}");
+        }
+
+        public List<Obtainable> GetObtainables()
+        {
+            return m_Inventory.GetObtainables();
         }
     }
 }
