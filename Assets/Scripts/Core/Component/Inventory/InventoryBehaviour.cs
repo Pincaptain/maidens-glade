@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Core.Component.Doodad;
 using Core.Component.Player;
-using Core.Manager;
+using Core.Component.UI;
 using UnityEngine;
 
 namespace Core.Component.Inventory
@@ -12,7 +11,8 @@ namespace Core.Component.Inventory
         public static InventoryBehaviour Instance { get; private set; }
 
         private Inventory m_Inventory;
-        private InterfaceManager m_InterfaceManager;
+        private InventoryUIBehaviour m_InventoryUIBehaviour;
+        private CommonUIBehaviour m_CommonUIBehaviour;
 
         private void Awake()
         {
@@ -29,7 +29,8 @@ namespace Core.Component.Inventory
         private void Start()
         {
             m_Inventory = new Inventory();
-            m_InterfaceManager = InterfaceManager.Instance;
+            m_CommonUIBehaviour = CommonUIBehaviour.Instance;
+            m_InventoryUIBehaviour = GetComponent<InventoryUIBehaviour>();
         }
 
         private void Update()
@@ -41,17 +42,17 @@ namespace Core.Component.Inventory
         {
             if (Input.GetKeyDown(Controls.Inventory))
             {
-                m_InterfaceManager.ToggleInventoryText();
+                m_InventoryUIBehaviour.ToggleInventoryText();
             }
         }
 
         public void AddObtainable(Obtainable obtainable)
         {
             m_Inventory.AddObtainable(obtainable);
-            m_InterfaceManager.Notify($"Obtained {obtainable.name}");
+            m_CommonUIBehaviour.EnqueueNotification($"Obtained {obtainable.name}");
         }
 
-        public List<Obtainable> GetObtainables()
+        public IEnumerable<Obtainable> GetObtainables()
         {
             return m_Inventory.GetObtainables();
         }

@@ -1,29 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using Core.Component.Inventory;
 using Core.Component.Player;
 using TMPro;
 using UnityEngine;
 
-namespace Core.Manager
+namespace Core.Component.UI
 {
-    public class InterfaceManager : MonoBehaviour
+    public class CommonUIBehaviour : MonoBehaviour
     {
-        public static InterfaceManager Instance { get; private set; }
-
-        private TMP_Text m_ObtainText;
-        private TMP_Text m_InspectText;
-        private TMP_Text m_DialogText;
-        private TMP_Text m_UseText;
-        private TMP_Text m_NameText;
+        public static CommonUIBehaviour Instance { get; private set; }
+        
         private TMP_Text m_NotificationText;
+        private TMP_Text m_NameText;
+        private TMP_Text m_DialogText;
         private TMP_Text m_DragText;
-        private TMP_Text m_InventoryText;
-
+        private TMP_Text m_InspectText;
+        private TMP_Text m_ObtainText;
+        private TMP_Text m_UseText;
+        
         private Queue<string> m_Notifications;
         private bool m_IsNotifying;
-        private InventoryBehaviour m_InventoryBehaviour;
+
+        private Queue<string> m_Dialog;
+        private bool m_IsTalking;
 
         private void Awake()
         {
@@ -39,20 +38,21 @@ namespace Core.Manager
 
         private void Start()
         {
-            m_ObtainText = GameObject.Find("ObtainText").GetComponent<TMP_Text>();
-            m_InspectText = GameObject.Find("InspectText").GetComponent<TMP_Text>();
-            m_DialogText = GameObject.Find("DialogText").GetComponent<TMP_Text>();
-            m_UseText = GameObject.Find("UseText").GetComponent<TMP_Text>();
-            m_NameText = GameObject.Find("NameText").GetComponent<TMP_Text>();
             m_NotificationText = GameObject.Find("NotificationText").GetComponent<TMP_Text>();
+            m_NameText = GameObject.Find("NameText").GetComponent<TMP_Text>();
+            m_DialogText = GameObject.Find("DialogText").GetComponent<TMP_Text>();
             m_DragText = GameObject.Find("DragText").GetComponent<TMP_Text>();
-            m_InventoryText = GameObject.Find("InventoryText").GetComponent<TMP_Text>();
+            m_InspectText = GameObject.Find("InspectText").GetComponent<TMP_Text>();
+            m_UseText = GameObject.Find("UseText").GetComponent<TMP_Text>();
+            m_ObtainText = GameObject.Find("ObtainText").GetComponent<TMP_Text>();
             
             m_Notifications = new Queue<string>();
             m_IsNotifying = false;
-            m_InventoryBehaviour = InventoryBehaviour.Instance;
-        }
 
+            m_Dialog = new Queue<string>();
+            m_IsTalking = false;
+        }
+        
         public void ToggleObtainText(bool on)
         {
             var text = on ? $"Obtain ({Controls.Obtain.ToString()})" : string.Empty;
@@ -76,17 +76,7 @@ namespace Core.Manager
             var text = on ? $"Drag ({Controls.Drag.ToString()})" : string.Empty;
             m_DragText.text = text;
         }
-
-        public void ChangeDialogText(string line)
-        {
-            m_DialogText.text = line;
-        }
-
-        public void ClearDialogText()
-        {
-            m_DialogText.text = string.Empty;
-        }
-
+        
         public void ShowNameText(string n)
         {
             m_NameText.text = n;
@@ -97,17 +87,46 @@ namespace Core.Manager
             m_NameText.text = string.Empty;
         }
 
-        public void Notify(string notification)
+        public void EnqueueDialog(string dialog)
+        {
+            m_Dialog.Enqueue(dialog);
+
+            if (!m_IsTalking)
+            {
+                StartCoroutine(DialogCoroutine());
+            }
+        }
+
+        private IEnumerator DialogCoroutine()
+        {
+            m_IsTalking = true;
+
+            while (m_Dialog.Count != 0)
+            {
+                var dialog = m_Dialog.Dequeue();
+                m_DialogText.text = dialog;
+
+                yield return new WaitForSeconds(2f);
+
+                m_DialogText.text = string.Empty;
+
+                yield return new WaitForSeconds(0.5f);
+            }
+
+            m_IsTalking = false;
+        }
+
+        public void EnqueueNotification(string notification)
         {
             m_Notifications.Enqueue(notification);
 
             if (!m_IsNotifying)
             {
-                StartCoroutine(NotifyCoroutine());
+                StartCoroutine(NotificationsCoroutine());
             }
         }
 
-        private IEnumerator NotifyCoroutine()
+        private IEnumerator NotificationsCoroutine()
         {
             m_IsNotifying = true;
 
@@ -124,26 +143,6 @@ namespace Core.Manager
             }
 
             m_IsNotifying = false;
-        }
-
-        public void ToggleInventoryText()
-        {
-            if (m_InventoryText.text.Equals(string.Empty))
-            {
-                var stringBuilder = new StringBuilder();
-
-                stringBuilder.AppendLine("Inventory:");
-                foreach (var obtainable in m_InventoryBehaviour.GetObtainables())
-                {
-                    stringBuilder.AppendLine($"- {obtainable.name}");
-                }
-
-                m_InventoryText.text = stringBuilder.ToString();
-            }
-            else
-            {
-                m_InventoryText.text = string.Empty;
-            }
         }
     }
 }

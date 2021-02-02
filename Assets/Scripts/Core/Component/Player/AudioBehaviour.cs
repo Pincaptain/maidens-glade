@@ -1,11 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Core.Manager
+namespace Core.Component.Player
 {
-    public class AudioManager: MonoBehaviour
+    public class AudioBehaviour : MonoBehaviour
     {
-        public static AudioManager Instance { get; private set; }
+        public static AudioBehaviour Instance { get; private set; }
 
         private AudioSource m_AudioSource;
         

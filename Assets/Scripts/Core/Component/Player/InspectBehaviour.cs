@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Core.Component.Doodad;
-using Core.Manager;
+using Core.Component.UI;
 using UnityEngine;
 
 namespace Core.Component.Player
@@ -8,12 +8,12 @@ namespace Core.Component.Player
     public class InspectBehaviour : MonoBehaviour
     {
         private Camera m_MainCamera;
-        private InterfaceManager m_InterfaceManager;
+        private CommonUIBehaviour m_CommonUIBehaviour;
 
         private void Start()
         {
             m_MainCamera = Camera.main;
-            m_InterfaceManager = InterfaceManager.Instance;
+            m_CommonUIBehaviour = CommonUIBehaviour.Instance;
         }
 
         private void Update()
@@ -54,14 +54,14 @@ namespace Core.Component.Player
 
         private void ShowUI(string gameObjectName)
         {
-            m_InterfaceManager.ToggleInspectText(true);
-            m_InterfaceManager.ShowNameText(gameObjectName);
+            m_CommonUIBehaviour.ToggleInspectText(true);
+            m_CommonUIBehaviour.ShowNameText(gameObjectName);
         }
 
         private void HideUI()
         {
-            m_InterfaceManager.ToggleInspectText(false);
-            m_InterfaceManager.HideNameText();
+            m_CommonUIBehaviour.ToggleInspectText(false);
+            m_CommonUIBehaviour.HideNameText();
         }
     }
 }

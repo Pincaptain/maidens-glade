@@ -27,7 +27,7 @@ namespace Core.Component.Inventory
             return m_Obtainables.Contains(obtainable);
         }
 
-        public List<Obtainable> GetObtainables()
+        public IEnumerable<Obtainable> GetObtainables()
         {
             return m_Obtainables;
         }

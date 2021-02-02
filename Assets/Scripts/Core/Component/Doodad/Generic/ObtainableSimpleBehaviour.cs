@@ -1,7 +1,6 @@
-﻿using System;
-using Core.Component.Inventory;
-using Core.Manager;
+﻿using Core.Component.Inventory;
 using UnityEngine;
+using AudioBehaviour = Core.Component.Player.AudioBehaviour;
 
 namespace Core.Component.Doodad.Generic
 {
@@ -12,8 +11,8 @@ namespace Core.Component.Doodad.Generic
         public override void OnObtain()
         {
             InventoryBehaviour.Instance.AddObtainable(obtainable);
-            AudioManager.Instance.Play(obtainAudioClip);
-            
+            AudioBehaviour.Instance.Play(obtainAudioClip);
+
             Destroy(gameObject);
         }
     }
