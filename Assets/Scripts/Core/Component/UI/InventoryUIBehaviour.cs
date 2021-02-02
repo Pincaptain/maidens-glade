@@ -1,8 +1,9 @@
 ﻿using System.Text;
+using Core.Component.Inventory;
 using TMPro;
 using UnityEngine;
 
-namespace Core.Component.Inventory
+namespace Core.Component.UI
 {
     public class InventoryUIBehaviour : MonoBehaviour
     {
